@@ -15,14 +15,14 @@ A simple C++ template library modified STL. Some of the parts I'm not intend to 
 different with STL：the assignment and compound assignment operators return void type instead of a refrence to this. 
 
 ### vector
-Each time expand memory for 1.5time as before（similar to VC++ STL，not like libc++ for gcc which is twice）,so that the memory deallocated before may be used when continue calling push_back(). Same as STL, clear() will not deallocate the memory, only destruct the elements(so as deque/queue/string).
+Each time expand memory for 1.5time as before（similar to VC++ STL，not like libc++ for gcc which is twice）,so that the memory deallocated before may be used when continue calling `push_back()`. Same as STL, `clear()` will not deallocate the memory, only destruct the elements(so as deque/queue/string). No specialization for `vector<bool>`.
 
 ### deque/queue
 
 Allocate a bigger size of memory when the elements touch the end instead of using circle array.
 
 ### utility
-Use some template metaprogramming in swap() function, not the same way as STL to specialize for each swappable class.
+Use some template metaprogramming in `swap()` function, not the same way as STL to specialize for each swappable class.
 
 
 
