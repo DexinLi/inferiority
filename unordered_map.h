@@ -52,7 +52,7 @@ namespace MySTL
 
 		void operator=(const unordered_map& rhs)
 		{
-			if (this = &rhs)
+			if (this == &rhs)
 			{
 				return;
 			}
@@ -76,7 +76,7 @@ namespace MySTL
 				}
 			}
 		}
-		void operator=(unordered_map&& rhs)
+		void operator=(unordered_map rhs)
 		{
 			swap(rhs);
 		}
