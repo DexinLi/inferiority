@@ -6,7 +6,6 @@ namespace MySTL {
 	template<typename T>
 	class vector
 	{
-		//friend class queue<T>;
 	private:
 		static const int initial_capacity = 4;
 		
@@ -61,7 +60,7 @@ namespace MySTL {
 			m_length = rhs.m_length;
 			rhs.m_data = nullptr;
 		}
-		T& operator[](int n)
+		T& operator[](size_t n)
 		{
 			return m_data[n];
 		}
@@ -75,7 +74,7 @@ namespace MySTL {
 		{
 			if (m_data == nullptr)
 			{
-				m_data = m_data = (T*) ::operator new (initial_capacity * sizeof(T));
+				m_data = (T*) ::operator new (initial_capacity * sizeof(T));
 				construct(m_data, element);
 				m_capacity = initial_capacity;
 				m_length = 1;
@@ -94,7 +93,7 @@ namespace MySTL {
 		{
 			if (m_data == nullptr)
 			{
-				m_data = m_data = (T*) ::operator new (initial_capacity * sizeof(T));
+				m_data = (T*) ::operator new (initial_capacity * sizeof(T));
 				construct(m_data, MySTL::forward<T>(element));
 				m_capacity = initial_capacity;
 				m_length = 1;
