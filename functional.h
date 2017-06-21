@@ -20,8 +20,8 @@ namespace MySTL
 		private:
 			Func m_func;
 		public:
-			functor(const Func& func) :m_func(func) {}
-			functor(Func&& func) :m_func(MySTL::forward<Func>(func)) {}
+			functor(const Func& func) : m_func(func) {}
+			functor(Func&& func) : m_func(MySTL::forward<Func>(func)) {}
 			Ret operator()(Args... args) override
 			{
 				return m_func(MySTL::forward<Args>(args)...);
@@ -45,22 +45,22 @@ namespace MySTL
 		func_type m_function;
 		functor_base<Ret, Args...> * m_functor;
 	public:
-		function() :m_function(nullptr), m_functor(nullptr) {}
-		function(func_type func):m_function(func),m_functor(nullptr){}
+		function() : m_function(nullptr), m_functor(nullptr) {}
+		function(func_type func) : m_function(func),m_functor(nullptr){}
 		template<class Func, class = MySTL::check_if_t<is_class,Func>>
 		function(Func func) : m_function(nullptr)
 		{
 			m_functor = new functor<Func, Ret, Args...>(MySTL::move(func));
 		}
-		function(const function& rhs)
+		function(const function& rhs) : m_function(rhs.m_function), m_functor(nullptr)
 		{
-			m_function = rhs.m_function;
-			m_functor = rhs.m_functor->copy_self();
+			if (rhs.m_functor != nullptr)
+			{
+				m_functor = rhs.m_functor->copy_self();
+			}
 		}
-		function(function&& rhs)
+		function(function&& rhs) : m_function(rhs.m_function), m_functor(rhs.m_functor)
 		{
-			m_function = rhs.m_function;
-			m_functor = rhs.m_functor;
 			rhs.m_functor = nullptr;
 		}
 		void operator=(function rhs)
