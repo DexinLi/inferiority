@@ -1,6 +1,7 @@
 ## Introduce
 
 A simple C++ template library modified STL. Some of the parts I'm not intend to include：
+
 **thread**,**chorno**： need to apdapt for different OS
 
 **type_traits**,**iterator**：have to know lot about type cast rules and C++ template metaprogramming
@@ -24,6 +25,13 @@ Allocate a bigger size of memory when the elements touch the end instead of usin
 ### utility
 Use some template metaprogramming in `swap()` function, not the same way as STL to specialize for each swappable class.
 
+## TO DO
+
+**option**
+
+**memory**
+
+**dynamic_bitset**
 
 
 
