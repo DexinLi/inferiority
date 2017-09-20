@@ -4,7 +4,6 @@ namespace MySTL
 	template<typename T>
 	class reverse_iterator
 	{
-		
 		T iterator;
 	public:
 		reverse_iterator(const T& iter) :iterator(iter) {}
@@ -64,7 +63,7 @@ namespace MySTL
 
 	};
 
-	template<typename T,typename Num>
+	template<typename T, typename Num>
 	T advance(T x, Num n)
 	{
 		for (auto i = 0; i < n; ++i)
@@ -108,38 +107,38 @@ namespace MySTL
 	struct enable_if;
 
 	template<class T>
-	struct enable_if<true,T>
+	struct enable_if<true, T>
 	{
 		using type = typename T;
 	};
-	template<bool B,class T>
+	template<bool B, class T>
 	using enable_if_t = typename enable_if<B, T>::type;
 
 
-	template<template<class> class T,class C>
+	template<template<class> class T, class C>
 	struct check_if
 	{
-		using type =typename enable_if_t<T<C>::value, C>;
+		using type = typename enable_if_t<T<C>::value, C>;
 	};
 
-	template<template<class> class T,class C>
-	using check_if_t =typename check_if<T, C>::type;
+	template<template<class> class T, class C>
+	using check_if_t = typename check_if<T, C>::type;
 
-	namespace is_class_impl{
-		template<class T> static true_type test(int T::*);
-		template<class T> static false_type test(...);
+	namespace {
+		template<class T> static true_type is_class_test(int T::*);
+		template<class T> static false_type is_class_test(...);
 	}
 
 	template<class T>
 	struct is_class
 	{
-		static const bool value =  decltype(is_class_impl::test<T>(0))::value;
+		static const bool value = decltype(is_class_test<T>(0))::value;
 	};
 
 	template<class T>
 	constexpr bool is_class_v = is_class<T>::value;
 
-	namespace swap_impl {
+	namespace {
 		template<class T>
 		struct is_swappable_helper
 		{
@@ -151,7 +150,7 @@ namespace MySTL
 		template<class T>
 		struct is_swappable
 		{
-			using value = decltype(is_swappable_helper<T>::test<T>(0))::value;
+			static const bool value = decltype(is_swappable_helper<T>::test<T>(0))::value;
 		};
 		template<typename T, typename C>
 		struct get_swap
@@ -179,7 +178,7 @@ namespace MySTL
 	inline void swap(T &x, T &y)
 	{
 		using namespace swap_impl;
-		get_swap<T, is_swappable<T>::value>::swap(x,y);
+		get_swap<T, is_swappable<T>::value>::swap(x, y);
 	}
 
 	template<class _Ty>
@@ -227,15 +226,15 @@ namespace MySTL
 	}
 
 	template <class T>
-	void _fill_in(size_t n,T* dst,const T* src )
+	void _fill_in(size_t n, T* dst, const T* src)
 	{
 		for (size_t i = 0; i < n; ++i)
 		{
-			construct(dst+i,src[i]);
+			construct(dst + i, src[i]);
 		}
 	}
 	template<class T>
-	T* _move_to(T* src, size_t begin,size_t origin,size_t fresh_begin, size_t fresh_size)
+	T* _move_to(T* src, size_t begin, size_t origin, size_t fresh_begin, size_t fresh_size)
 	{
 		T* temp = (T*) ::operator new (fresh_size * sizeof(T));
 		_fill_in(origin, temp + fresh_begin, src + begin);
@@ -245,11 +244,11 @@ namespace MySTL
 	}
 
 	template<class T, class...Args>
-	void construct_n(size_t n, T* p,Args&&...args)
+	void construct_n(size_t n, T* p, Args&&...args)
 	{
 		for (size_t i = 0; i < n; ++i)
 		{
-			construct(p + i,MySTL::forward<Args>(args)...);
+			construct(p + i, MySTL::forward<Args>(args)...);
 		}
 	}
 
@@ -263,13 +262,12 @@ namespace MySTL
 	template<class T>
 	void destruct_n(size_t n, T* p)
 	{
-		for (size_t i = n-1; i >=0; ++i)
+		for (size_t i = n - 1; i >= 0; ++i)
 		{
 			(p + i)->~T();
 		}
 	}
 
-	
 	template<typename T1, typename T2>
 	struct pair
 	{
