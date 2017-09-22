@@ -41,24 +41,9 @@ namespace MySTL {
 		{
 			rhs.m_data = nullptr;
 		}
-		void operator=(const vector& rhs)
+		void operator=(vector rhs)
 		{
-			if (this == &rhs)
-			{
-				return;
-			}
-			destruct_n(m_length, m_data);
-			m_length = rhs.m_length;
-			m_capacity = m_length;
-			m_data= (T*) ::operator new (m_length * sizeof(T));
-			_fill_in(m_length, m_data, rhs.m_data);
-		}
-		void operator=(vector && rhs)
-		{
-			m_data = rhs.m_data;
-			m_capacity = rhs.m_capacity;
-			m_length = rhs.m_length;
-			rhs.m_data = nullptr;
+			swap(rhs);
 		}
 		T& operator[](size_t n)
 		{

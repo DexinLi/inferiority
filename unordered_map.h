@@ -50,32 +50,6 @@ namespace MySTL
 			rhs.m_size = 0;
 		}
 
-		void operator=(const unordered_map& rhs)
-		{
-			if (this == &rhs)
-			{
-				return;
-			}
-			for (size_t i = 0; i < m_capacity; ++i)
-			{
-				if (m_data[i] != nullptr)
-				{
-					delete m_data[i];
-				}
-			}
-			m_size = rhs.m_size;
-			hash_func = rhs.hash_func;
-			equal = rhs.equal;
-			m_capacity = rhs.m_capacity;
-			m_data = new slot_type[m_capacity]();
-			for (size_t i = 0; i < m_capacity; ++i)
-			{
-				if (rhs.m_data[i] != nullptr)
-				{
-					m_data[i] = new list<Pair>(*(m_data[i]));
-				}
-			}
-		}
 		void operator=(unordered_map rhs)
 		{
 			swap(rhs);

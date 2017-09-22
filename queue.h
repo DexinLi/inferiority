@@ -45,32 +45,11 @@ namespace MySTL
 		{
 			rhs.m_data = nullptr;
 		}
-		void operator=(deque&& rhs)
+		void operator=(deque rhs)
 		{
 			swap(rhs);
 		}
 
-		void operator=(const deque& rhs)
-		{
-			if (this == &rhs)
-			{
-				return;
-			}
-			destruct_n(m_size, m_data + m_begin);
-			m_begin = 0;
-			m_size = rhs.m_size;
-			if (m_size <= m_capacity)
-			{
-				_fill_in(m_size, m_data, rhs.m_data + rhs.m_begin);
-			}
-			else
-			{
-				m_capacity = m_size;
-				::operator delete(m_data);
-				m_data = (T*) ::operator new(m_capacity);
-				_fill_in(m_size, m_data, rhs.m_data + m_begin);
-			}
-		}
 		void push_back(const T& val)
 		{
 			if (m_data == nullptr)

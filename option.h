@@ -17,15 +17,13 @@ namespace MySTL
 			}
 			large_option(T &e) : m_element(new T(e)) {}
 			large_option(T &&e) : m_element(new T(MySTL::forward<T>(e))) {}
-			void operator=(large_option &rhs)
+			void operator=(large_option rhs)
 			{
-				delete m_element;
-				m_element = new T(*rhs.m_element);
+				swap(rhs);
 			}
-			void operator=(large_option &&rhs)
+			void swap(large_option &rhs)
 			{
-				m_element = rhs.m_element;
-				rhs.m_element = nullptr;
+				MySTL::swap(m_element, rhs.m_element);
 			}
 			T& getUnsafe()
 			{
@@ -77,10 +75,16 @@ namespace MySTL
 			void operator=(small_option &rhs)
 			{
 				m_element = rhs.m_element;
+				m_empty = rhs.m_empty;
 			}
 			void operator=(small_option &&rhs)
 			{
 				m_element = MySTL::forward<T>(rhs.m_element);
+				m_empty = rhs.m_empty;
+			}
+			void swap(small_option &rhs)
+			{
+				MySTL::swap(m_element, rhs.m_element);
 			}
 			T& getUnsafe()
 			{
@@ -143,6 +147,10 @@ namespace MySTL
 		void operator=(option &&rhs)
 		{
 			m_element = MySTL::forward<T>(rhs.m_element);
+		}
+		void swap(option &rhs)
+		{
+			m_element.swap(rhs.m_element);
 		}
 		T& getUnsafe()
 		{
