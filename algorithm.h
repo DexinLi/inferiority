@@ -287,11 +287,11 @@ namespace MySTL
 		++middle;
 		while (middle != last)
 		{
-			while ((first != middle) && p(*first))
+			while ((first != middle)  &&p(*first))
 			{
 				++first;
 			}
-			while ((middle != last) && (!p(*middle)))
+			while ((middle != last)  &&(!p(*middle)))
 			{
 				++middle;
 			}
@@ -309,9 +309,9 @@ namespace MySTL
 		if (first == last) return;
 		auto pivot = *first;
 		RandomIt middle1 = MySTL::partition(first, last,
-			[pivot](const auto& x) { return x < pivot; });
+			[pivot](const auto &x) { return x < pivot; });
 		RandomIt middle2 = MySTL::partition(middle1, last,
-			[pivot](const auto& x) { return !(pivot < x); });
+			[pivot](const auto &x) { return !(pivot < x); });
 		sort(first, middle1);
 		sort(middle2, last);
 
@@ -323,9 +323,9 @@ namespace MySTL
 		if (first == last) return;
 		auto pivot = *first;
 		RandomIt middle1 = MySTL::partition(first, last,
-			[pivot,&comp](const auto& x) { return comp(x,pivot); });
+			[pivot,&comp](const auto &x) { return comp(x,pivot); });
 		RandomIt middle2 = MySTL::partition(middle1, last,
-			[pivot,&comp](const auto& x) { return !comp(pivot,x); });
+			[pivot,&comp](const auto &x) { return !comp(pivot,x); });
 		sort(first, middle1);
 		sort(middle2, last);
 	}
@@ -353,7 +353,7 @@ namespace MySTL
 
 
 	template<class RandomIt, class T>
-	RandomIt lower_bound(RandomIt first, RandomIt last, const T& value)
+	RandomIt lower_bound(RandomIt first, RandomIt last, const T &value)
 	{
 		RandomIt it;
 		size_t count, step;
@@ -375,7 +375,7 @@ namespace MySTL
 
 
 	template<class RandomIt, class T, class Compare>
-	RandomIt lower_bound(RandomIt first, RandomIt last, const T& value, Compare comp)
+	RandomIt lower_bound(RandomIt first, RandomIt last, const T &value, Compare comp)
 	{
 		RandomIt it;
 		size_t count, step;
@@ -396,23 +396,23 @@ namespace MySTL
 	}
 
 	template<class RandomIt, class T>
-	bool binary_search(RandomIt first, RandomIt last, const T& value)
+	bool binary_search(RandomIt first, RandomIt last, const T &value)
 	{
 		first = MySTL::lower_bound(first, last, value);
-		return (!(first == last) && !(value < *first));
+		return (!(first == last)  &&!(value < *first));
 	}
 
 
 	template<class RandomIt, class T, class Compare>
-	bool binary_search(RandomIt first, RandomIt last, const T& value, Compare comp)
+	bool binary_search(RandomIt first, RandomIt last, const T &value, Compare comp)
 	{
 		first = MySTL::lower_bound(first, last, value, comp);
-		return (!(first == last) && !(comp(value, *first)));
+		return (!(first == last)  &&!(comp(value, *first)));
 	}
 
 
 	template<class RandomIt, class T>
-	RandomIt upper_bound(RandomIt first, RandomIt last, const T& value)
+	RandomIt upper_bound(RandomIt first, RandomIt last, const T &value)
 	{
 		RandomIt it;
 		size_t count, step;
@@ -433,7 +433,7 @@ namespace MySTL
 
 
 	template<class RandomIt, class T, class Compare>
-	RandomIt upper_bound(RandomIt first, RandomIt last, const T& value, Compare comp)
+	RandomIt upper_bound(RandomIt first, RandomIt last, const T &value, Compare comp)
 	{
 		RandomIt it;
 		size_t count, step;
@@ -454,7 +454,7 @@ namespace MySTL
 
 	template<class ForwardIt, class T>
 	MySTL::pair<ForwardIt, ForwardIt>
-		equal_range(ForwardIt first, ForwardIt last,const T& value)
+		equal_range(ForwardIt first, ForwardIt last,const T &value)
 	{
 		return MySTL::make_pair(MySTL::lower_bound(first,last,value),
 			MySTL::upper_bound(first, last, value));
@@ -463,7 +463,7 @@ namespace MySTL
 
 	template<class ForwardIt, class T, class Compare>
 	MySTL::pair<ForwardIt, ForwardIt>
-		equal_range(ForwardIt first, ForwardIt last,const T& value, Compare comp)
+		equal_range(ForwardIt first, ForwardIt last,const T &value, Compare comp)
 	{
 		return MySTL::make_pair(MySTL::lower_bound(first, last, value, comp),
 			MySTL::upper_bound(first, last, value, comp));

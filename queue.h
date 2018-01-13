@@ -15,7 +15,7 @@ namespace MySTL
 		static const int initial_begin = 1;
 	public:
 		deque():m_data(nullptr),m_begin(0),m_capacity(0),m_size(0){}
-		deque(size_t n,const T& val):m_data(nullptr),m_capacity(n),m_begin(0),m_size(n)
+		deque(size_t n,const T &val):m_data(nullptr),m_capacity(n),m_begin(0),m_size(n)
 		{
 			if (n != 0)
 			{
@@ -32,7 +32,7 @@ namespace MySTL
 			}
 		}
 
-		deque(const deque& rhs):m_data(nullptr),m_size(rhs.size),m_begin(0),m_capacity(m_size)
+		deque(const deque &rhs):m_data(nullptr),m_size(rhs.size),m_begin(0),m_capacity(m_size)
 		{
 			if (m_size != 0)
 			{
@@ -40,7 +40,7 @@ namespace MySTL
 				_fill_in(m_size, m_data, rhs.m_data + rhs.m_begin);
 			}
 		}
-		deque(deque&& rhs):m_data(rhs.m_data),m_size(rhs.m_size),
+		deque(deque &&rhs):m_data(rhs.m_data),m_size(rhs.m_size),
 			m_begin(rhs.m_begin),m_capacity(rhs.m_capacity)
 		{
 			rhs.m_data = nullptr;
@@ -50,7 +50,7 @@ namespace MySTL
 			swap(rhs);
 		}
 
-		void push_back(const T& val)
+		void push_back(const T &val)
 		{
 			if (m_data == nullptr)
 			{
@@ -71,7 +71,7 @@ namespace MySTL
 			
 		}
 
-		void push_back(T&& val)
+		void push_back(T &&val)
 		{
 			if (m_data == nullptr)
 			{
@@ -91,7 +91,7 @@ namespace MySTL
 			m_size += 1;
 		}
 
-		void push_front(const T& val)
+		void push_front(const T &val)
 		{
 			if (m_data == nullptr)
 			{
@@ -113,7 +113,7 @@ namespace MySTL
 
 		}
 
-		void push_front(T&& val)
+		void push_front(T &&val)
 		{
 			if (m_data == nullptr)
 			{
@@ -151,22 +151,22 @@ namespace MySTL
 			return m_size == 0;
 		}
 
-		T& front()
+		T &front()
 		{
 			return *(m_data + m_begin);
 		}
 
-		T& back()
+		T &back()
 		{
 			return *(m_data + m_begin + m_size - 1);
 		}
 
-		T& operator[](size_t n)
+		T &operator[](size_t n)
 		{
 			return *(m_data + m_begin + n);
 		}
 
-		void swap(const deque& rhs)
+		void swap(const deque &rhs)
 		{
 			MySTL::swap(m_begin,rhs.m_begin);
 			MySTL::swap(m_capacity, rhs.m_capacity);
@@ -203,7 +203,7 @@ namespace MySTL
 				construct_n(n, m_data);
 			}
 		}
-		queue(size_t n, const T& val) :m_data(nullptr), m_capacity(n), m_begin(0), m_size(n)
+		queue(size_t n, const T &val) :m_data(nullptr), m_capacity(n), m_begin(0), m_size(n)
 		{
 			if (n != 0)
 			{
@@ -211,7 +211,7 @@ namespace MySTL
 				construct_n(n, m_data, val);
 			}
 		}
-		queue(const queue& rhs) :m_data(nullptr), m_size(rhs.size), m_begin(0), m_capacity(m_size)
+		queue(const queue &rhs) :m_data(nullptr), m_size(rhs.size), m_begin(0), m_capacity(m_size)
 		{
 			if (m_size != 0)
 			{
@@ -219,17 +219,17 @@ namespace MySTL
 				_fill_in(m_size, m_data, rhs.m_data + rhs.m_begin);
 			}
 		}
-		queue(queue&& rhs) :m_data(rhs.m_data), m_size(rhs.m_size),
+		queue(queue &&rhs) :m_data(rhs.m_data), m_size(rhs.m_size),
 			m_begin(rhs.m_begin), m_capacity(rhs.m_capacity)
 		{
 			rhs.m_data = nullptr;
 		}
-		void operator=(queue&& rhs)
+		void operator=(queue &&rhs)
 		{
 			swap(rhs);
 		}
 
-		void operator=(const queue& rhs)
+		void operator=(const queue &rhs)
 		{
 			if (this == &rhs)
 			{
@@ -254,7 +254,7 @@ namespace MySTL
 		{
 			return m_data.size();
 		}
-		void push(const T& val)
+		void push(const T &val)
 		{
 			if (m_data == nullptr)
 			{
@@ -272,7 +272,7 @@ namespace MySTL
 			construct(m_data + m_begin + m_size, val);
 			m_size += 1;
 		}
-		void push(T&& val)
+		void push(T &&val)
 		{
 			if (m_data == nullptr)
 			{
@@ -296,11 +296,11 @@ namespace MySTL
 			m_begin += 1;
 			m_size -= 1;
 		}
-		T& front()
+		T &front()
 		{
 			return *(m_data + m_begin);
 		}
-		T& back()
+		T &back()
 		{
 			return *(m_data + m_begin + m_size - 1);
 		}
@@ -317,28 +317,28 @@ namespace MySTL
 	{
 	public:
 		explicit priority_queue() :m_container(), m_comparer() {}
-		priority_queue(const Comparer& comparer, const Container& cont):m_comparer(comparer),m_container(cont)
+		priority_queue(const Comparer &comparer, const Container &cont):m_comparer(comparer),m_container(cont)
 		{
 			MySTL::make_heap(m_container.begin(), m_container.end(), m_comparer);
 		}
-		priority_queue(const Comparer& comparer, Container&& cont) :m_comparer(comparer),
+		priority_queue(const Comparer &comparer, Container &&cont) :m_comparer(comparer),
 			m_container(MySTL::forward<Container>(cont)) 
 		{
 			MySTL::make_heap(m_container.begin(), m_container.end(), m_comparer);
 		}
-		priority_queue(const Comparer& comparer):m_comparer(comparer),m_container(){}
-		priority_queue(const priority_queue& rhs) = default;
-		priority_queue(priority_queue&& rhs) = default;
+		priority_queue(const Comparer &comparer):m_comparer(comparer),m_container(){}
+		priority_queue(const priority_queue &rhs) = default;
+		priority_queue(priority_queue &&rhs) = default;
 		void operator=(priority_queue rhs)
 		{
 			swap(rhs);
 		}
-		void swap(priority_queue& rhs)
+		void swap(priority_queue &rhs)
 		{
 			MySTL::swap(rhs.m_container);
 			MySTL::swap(rhs.m_comparer);
 		}
-		const T& top() const
+		const T &top() const
 		{
 			return m_container.front();
 		}
@@ -350,12 +350,12 @@ namespace MySTL
 		{
 			return m_container.empty();
 		}
-		void push(const T& val)
+		void push(const T &val)
 		{
 			m_container.push_back(val);
 			MySTL::push_heap(m_container.begin(), m_container.end(),m_comparer);
 		}
-		void push(T&& val)
+		void push(T &&val)
 		{
 			m_container.push_back(MySTL::forward<T>(val));
 			MySTL::push_heap(m_container.begin(), m_container.end(),m_comparer);

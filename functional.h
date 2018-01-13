@@ -20,8 +20,8 @@ namespace MySTL
 		private:
 			Func m_func;
 		public:
-			functor(const Func& func) : m_func(func) {}
-			functor(Func&& func) : m_func(MySTL::forward<Func>(func)) {}
+			functor(const Func &func) : m_func(func) {}
+			functor(Func &&func) : m_func(MySTL::forward<Func>(func)) {}
 			Ret operator()(Args... args) override
 			{
 				return m_func(MySTL::forward<Args>(args)...);
@@ -52,18 +52,18 @@ namespace MySTL
 		{
 			m_functor = new functor<Func, Ret, Args...>(MySTL::move(func));
 		}
-		function(const function& rhs) : m_function(rhs.m_function), m_functor(nullptr)
+		function(const function &rhs) : m_function(rhs.m_function), m_functor(nullptr)
 		{
 			if (rhs.m_functor != nullptr)
 			{
 				m_functor = rhs.m_functor->copy_self();
 			}
 		}
-		function(function&& rhs) : m_function(rhs.m_function), m_functor(rhs.m_functor)
+		function(function &&rhs) : m_function(rhs.m_function), m_functor(rhs.m_functor)
 		{
 			rhs.m_functor = nullptr;
 		}
-		void operator=(function rhs)
+		void operator=(function rhs) &
 		{
 			swap(rhs);
 		}
@@ -75,7 +75,7 @@ namespace MySTL
 			}
 			return (*m_functor)(MySTL::forward<Args>(args)...);
 		}
-		void swap(function& rhs)
+		void swap(function &rhs)
 		{
 			MySTL::swap(m_function, rhs.m_function);
 			MySTL::swap(m_functor, rhs.m_functor);
@@ -125,7 +125,7 @@ namespace MySTL
 	template<class Ret, class... Args>
 	class function<Ret(Args......)const volatile &> {};
 	template<class Ret, class... Args>
-	class function<Ret(Args...) && > {};
+	class function<Ret(Args...)  &&> {};
 	template<class Ret, class... Args>
 	class function<Ret(Args...)const &&> {};
 	template<class Ret, class... Args>
@@ -133,7 +133,7 @@ namespace MySTL
 	template<class Ret, class... Args>
 	class function<Ret(Args...)const volatile &&> {};
 	template<class Ret, class... Args>
-	class function<Ret(Args......) && > {};
+	class function<Ret(Args......)  &&> {};
 	template<class Ret, class... Args>
 	class function<Ret(Args......)const &&> {};
 	template<class Ret, class... Args>
@@ -160,37 +160,37 @@ namespace MySTL
 	template<class Ret, class... Args>
 	class function<Ret(Args......)const volatile noexcept> {};
 	template<class Ret, class... Args>
-	class function<Ret(Args...) & noexcept> {};
+	class function<Ret(Args...)  &noexcept> {};
 	template<class Ret, class... Args>
-	class function<Ret(Args...)const & noexcept> {};
+	class function<Ret(Args...)const  &noexcept> {};
 	template<class Ret, class... Args>
-	class function<Ret(Args...)volatile & noexcept> {};
+	class function<Ret(Args...)volatile  &noexcept> {};
 	template<class Ret, class... Args>
-	class function<Ret(Args...)const volatile & noexcept> {};
+	class function<Ret(Args...)const volatile  &noexcept> {};
 	template<class Ret, class... Args>
-	class function<Ret(Args......) & noexcept> {};
+	class function<Ret(Args......)  &noexcept> {};
 	template<class Ret, class... Args>
-	class function<Ret(Args......)const & noexcept> {};
+	class function<Ret(Args......)const  &noexcept> {};
 	template<class Ret, class... Args>
-	class function<Ret(Args......)volatile & noexcept> {};
+	class function<Ret(Args......)volatile  &noexcept> {};
 	template<class Ret, class... Args>
-	class function<Ret(Args......)const volatile & noexcept> {};
+	class function<Ret(Args......)const volatile  &noexcept> {};
 	template<class Ret, class... Args>
-	class function<Ret(Args...) && noexcept> {};
+	class function<Ret(Args...)  &&noexcept> {};
 	template<class Ret, class... Args>
-	class function<Ret(Args...)const && noexcept> {};
+	class function<Ret(Args...)const  &&noexcept> {};
 	template<class Ret, class... Args>
-	class function<Ret(Args...)volatile && noexcept> {};
+	class function<Ret(Args...)volatile  &&noexcept> {};
 	template<class Ret, class... Args>
-	class function<Ret(Args...)const volatile && noexcept> {};
+	class function<Ret(Args...)const volatile  &&noexcept> {};
 	template<class Ret, class... Args>
-	class function<Ret(Args......) && noexcept> {};
+	class function<Ret(Args......)  &&noexcept> {};
 	template<class Ret, class... Args>
-	class function<Ret(Args......)const && noexcept> {};
+	class function<Ret(Args......)const  &&noexcept> {};
 	template<class Ret, class... Args>
-	class function<Ret(Args......)volatile && noexcept> {};
+	class function<Ret(Args......)volatile  &&noexcept> {};
 	template<class Ret, class... Args>
-	class function<Ret(Args......)const volatile && noexcept> {};
+	class function<Ret(Args......)const volatile  &&noexcept> {};
 	*/
 
 }

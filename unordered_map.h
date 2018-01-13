@@ -23,14 +23,14 @@ namespace MySTL
 			m_capacity(initial_capacity), m_data(new slot_type[initial_capacity]()) {}
 
 
-		explicit unordered_map(size_t bucket_count = initial_capacity, const Hash& hash = Hash(),
-			const KeyEqual& equal = KeyEqual())
+		explicit unordered_map(size_t bucket_count = initial_capacity, Hash hash = Hash(),
+			KeyEqual equal = KeyEqual())
 			:m_size(0), m_capacity(bucket_count>initial_capacity ? bucket_count : initial_capacity),
 			m_data(new slot_type[initial_capacity]()), hash_func(hash), equal(equal)
 		{}
 
 
-		unordered_map(const unordered_map& rhs) :m_size(rhs.m_size), hash_func(rhs.hash_func), equal(rhs.equal),
+		unordered_map(const unordered_map &rhs) :m_size(rhs.m_size), hash_func(rhs.hash_func), equal(rhs.equal),
 			m_capacity(rhs.m_capacity)
 		{
 			m_data = new slot_type[m_capacity]();
@@ -42,7 +42,7 @@ namespace MySTL
 				}
 			}
 		}
-		unordered_map(unordered_map&& rhs) :m_size(rhs.m_size), hash_func(rhs.hash_func), equal(rhs.equal),
+		unordered_map(unordered_map &&rhs) :m_size(rhs.m_size), hash_func(rhs.hash_func), equal(rhs.equal),
 			m_capacity(rhs.m_capacity)
 		{
 			m_data = rhs.m_data;
@@ -50,18 +50,18 @@ namespace MySTL
 			rhs.m_size = 0;
 		}
 
-		void operator=(unordered_map rhs)
+		void operator=(unordered_map rhs) &
 		{
 			swap(rhs);
 		}
 
-		void swap(unordered_map& rhs)
+		void swap(unordered_map &rhs)
 		{
 			MySTL::swap(m_size, rhs.m_size);
 			MySTL::swap(m_capacity, rhs.m_capacity);
 			MySTL::swap(m_data, rhs.m_data);
 		}
-		iterator insert(const Pair& p)
+		iterator insert(const Pair &p)
 		{
 			Key key = p.first;
 			if (m_size >= m_capacity)
@@ -98,7 +98,7 @@ namespace MySTL
 			return{ this,index,m_data[index]->begin() };
 		}
 
-		iterator insert(Pair&& p)
+		iterator insert(Pair &&p)
 		{
 			Key key = p.first;
 			if (m_size >= m_capacity)
@@ -136,7 +136,7 @@ namespace MySTL
 			return{ this, index, m_data[index]->begin() };
 		}
 
-		iterator erase(const Key& key)
+		iterator erase(const Key &key)
 		{
 			size_t index = hash_func(key) % m_capacity;
 			if (m_data[index] == nullptr)
@@ -193,7 +193,7 @@ namespace MySTL
 			m_data[ite.index]->erase(ite.list_ite);
 			return res;
 		}
-		iterator find(const Key& key)
+		iterator find(const Key &key)
 		{
 			size_t index = hash_func(key) % m_capacity;
 			if (m_data[index] == nullptr)
@@ -209,7 +209,7 @@ namespace MySTL
 			}
 			return end();
 		}
-		Value& operator[](const Key& key)
+		Value &operator[](const Key &key)
 		{
 			size_t index = hash_func(key) % m_capacity;
 			if (m_data[index] == nullptr)
@@ -265,14 +265,14 @@ namespace MySTL
 		using Pair = MySTL::pair<Key, Value>;
 	public:
 		hash_map_iterator(unordered_map<Key, Value>* s, size_t i, MySTL::list<Pair>::iterator ite) :set(s), index(i), list_ite(ite) {}
-		hash_map_iterator(const hash_map_iterator& rhs) = default;
-		void operator=(const hash_map_iterator& rhs)
+		hash_map_iterator(const hash_map_iterator &rhs) = default;
+		void operator=(const hash_map_iterator &rhs)
 		{
 			set = rhs.set;
 			index = rhs.index;
 			list_ite = rhs.list_ite;
 		}
-		bool operator==(const hash_map_iterator& rhs)
+		bool operator==(const hash_map_iterator &rhs)
 		{
 			if (set == rhs.set)
 			{

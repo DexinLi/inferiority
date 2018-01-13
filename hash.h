@@ -16,7 +16,7 @@ namespace MySTL
 	template<>
 	struct hash<MySTL::string>
 	{
-		size_t operator()(MySTL::string& str)
+		size_t operator()(MySTL::string &str)
 		{
 			size_t h = initial_val;
 			for (size_t i = 0, e = str.length(); i != e; ++i)

@@ -1,4 +1,5 @@
 #pragma once
+using size_t = decltype(sizeof(0));
 namespace MySTL
 {
 	template<typename T>
@@ -6,8 +7,8 @@ namespace MySTL
 	{
 		T iterator;
 	public:
-		reverse_iterator(const T& iter) :iterator(iter) {}
-		void operator=(const reverse_iterator& rhs)
+		reverse_iterator(const T &iter) :iterator(iter) {}
+		void operator=(const reverse_iterator &rhs)
 		{
 			iterator = rhs.iterator;
 		}
@@ -77,7 +78,7 @@ namespace MySTL
 	template<typename T>
 	struct less
 	{
-		bool operator()(const T&lhs, const T& rhs)
+		bool operator()(const T&lhs, const T &rhs)
 		{
 			return lhs < rhs;
 		}
@@ -86,7 +87,7 @@ namespace MySTL
 	template<typename T>
 	struct equal_to
 	{
-		bool operator()(const T&lhs, const T& rhs)
+		bool operator()(const T&lhs, const T &rhs)
 		{
 			return lhs == rhs;
 		}
@@ -137,7 +138,19 @@ namespace MySTL
 
 	template<class T>
 	constexpr bool is_class_v = is_class<T>::value;
-
+	#define HAS_MEMBER(name) template<class T>\
+	struct has_member_##name_helper\
+	{\
+		template<class C>\
+		static true_type test(decltype(&(C::##name)));\
+		template<class C>\
+		static false_type test(...);\
+	};\
+	template<class T>\
+	struct has_member_##name\
+	{\
+		static const bool value = decltype(has_member_##name_helper<T>::test<T>(0))::value;\
+	};
 	namespace {
 		template<class T>
 		struct is_swappable_helper
@@ -201,19 +214,19 @@ namespace MySTL
 
 
 	template<typename T>
-	inline constexpr typename remove_reference<T>::type&& move(T&& x) noexcept
+	inline constexpr typename remove_reference<T>::type &&move(T &&x) noexcept
 	{
 		return static_cast<typename remove_reference<T>::type&&>(x);
 	}
 
 	template<typename T>
-	inline constexpr T&& forward(typename remove_reference<T>::type&& x) noexcept
+	inline constexpr T &&forward(typename remove_reference<T>::type &&x) noexcept
 	{
 		return static_cast<T&&>(x);
 	}
 
 	template<typename T>
-	inline constexpr T&& forward(typename remove_reference<T>::type& x) noexcept
+	inline constexpr T &&forward(typename remove_reference<T>::type &x) noexcept
 	{
 		return static_cast<T&&>(x);
 	}
@@ -274,49 +287,49 @@ namespace MySTL
 		T1 first;
 		T2 second;
 		constexpr pair() :first(), second() {}
-		constexpr pair(const T1& val1, const T2& val2) : first(val1), second(val2) {}
-		constexpr pair(const T1& val1, T2&& val2) : first(val1), second(MySTL::forward<T2>(val2)) {}
-		constexpr pair(T1&& val1, const T2& val2) : first(MySTL::forward<T1>(val1)), second(val2) {}
-		constexpr pair(T1&& val1, T2&& val2) : first(MySTL::forward<T1>(val1)), second(MySTL::forward<T2>(val2)) {}
+		constexpr pair(const T1 &val1, const T2 &val2) : first(val1), second(val2) {}
+		constexpr pair(const T1 &val1, T2 &&val2) : first(val1), second(MySTL::forward<T2>(val2)) {}
+		constexpr pair(T1 &&val1, const T2 &val2) : first(MySTL::forward<T1>(val1)), second(val2) {}
+		constexpr pair(T1 &&val1, T2 &&val2) : first(MySTL::forward<T1>(val1)), second(MySTL::forward<T2>(val2)) {}
 
 		pair(const pair&) = default;
 		pair(pair&&) = default;
-		void operator=(const pair& rhs)
+		void operator=(const pair &rhs) &
 		{
 			first = rhs.first;
 			second = rhs.second;
 		}
 
-		void operator=(pair&& rhs)
+		void operator=(pair &&rhs) &
 		{
 			first = MySTL::forward < pair<T1, T2>>(rhs).first;
 			second = MySTL::forward < pair<T1, T2>>(rhs).second;
 		}
-		constexpr bool operator<(const pair& rhs)
+		constexpr bool operator<(const pair &rhs)
 		{
 			return (first == rhs.first) ? (second < rhs.second) : (first < rhs.first);
 		}
 
-		constexpr bool operator<=(const pair& rhs)
+		constexpr bool operator<=(const pair &rhs)
 		{
 			return (first == rhs.first) ? (second <= rhs.second) : (first <= rhs.first);
 		}
-		constexpr bool operator>(const pair& rhs)
+		constexpr bool operator>(const pair &rhs)
 		{
 			return (first == rhs.first) ? (second > rhs.second) : (first > rhs.first);
 		}
 
-		constexpr bool operator>=(const pair& rhs)
+		constexpr bool operator>=(const pair &rhs)
 		{
 			return (first == rhs.first) ? (second >= rhs.second) : (first >= rhs.first);
 		}
 
-		constexpr bool operator==(const pair& rhs)
+		constexpr bool operator==(const pair &rhs)
 		{
-			return (first == rhs.first) && (second == rhs.second);
+			return (first == rhs.first)  &&(second == rhs.second);
 		}
 
-		void swap(const pair& rhs)
+		void swap(const pair &rhs)
 		{
 			MySTL::swap(first, rhs.first);
 			MySTL::swap(second, rhs.second);

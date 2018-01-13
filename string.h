@@ -6,7 +6,7 @@ namespace MySTL
 {
 	class string
 	{
-		friend string operator+(const string& lhs, const string& rhs);
+		friend string operator+(const string &lhs, const string &rhs);
 	private:
 		char* m_data;
 		size_t m_size;
@@ -16,25 +16,32 @@ namespace MySTL
 		using iterator = char*;
 		using reverse_iterator = reverse_iterator<iterator>;
 		string() :m_data(new char[1]()), m_size(0),m_capacity(1) {}
-		explicit string(size_t n) : m_size(n),m_capacity(n+1)
+		explicit string(size_t n) : m_size(n), m_capacity(n+1)
 		{
 			m_data = new char[m_capacity]();
 		}
-		string(size_t n, const char& val) : m_size(n),m_capacity(n + 1)
+		string(size_t n, const char &val) : m_size(n), m_capacity(n + 1)
 		{
 			m_data = new char[m_capacity];
-			for (size_t i = 0; i < n; ++i)
+			if(val == 0)
 			{
-				m_data[i] = val;
+				m_size = 0;
 			}
-			m_data[n] = '\0';
+			else
+			{
+				for (size_t i = 0; i < n; ++i)
+				{
+					m_data[i] = val;
+				}
+				m_data[n] = '\0';
+			}
 		}
-		string(const string& rhs) :m_size(rhs.m_size),m_capacity(m_size+1)
+		string(const string &rhs) :m_size(rhs.m_size),m_capacity(m_size+1)
 		{
 			m_data = new char[m_capacity];
 			strcpy(m_data, rhs.m_data);
 		}
-		string(string&& rhs)
+		string(string &&rhs)
 		{
 			m_size = rhs.m_size;
 			m_data = rhs.m_data;
@@ -48,12 +55,12 @@ namespace MySTL
 			m_data = new char[m_capacity];
 			strcpy(m_data, data);
 		}
-		void operator=(string rhs)
+		void operator=(string rhs) &
 		{
 			swap(rhs);
 		}
 
-		void swap(string& rhs)
+		void swap(string &rhs)
 		{
 			MySTL::swap(m_data,rhs.m_data);
 			MySTL::swap(m_capacity, rhs.m_capacity);
@@ -91,12 +98,12 @@ namespace MySTL
 		{
 			return m_capacity;
 		}
-		char& front() 
+		char &front() 
 		{
 			return *m_data;
 		}
 
-		char& back() 
+		char &back() 
 		{
 			return m_data[m_size - 1];
 		}
@@ -114,11 +121,15 @@ namespace MySTL
 			delete[] m_data;
 			m_data = temp;
 		}
-		const char* data() const
+		const char *data() const
 		{
 			return m_data;
 		}
-		const char* c_str() const
+		char *data()
+		{
+			return m_data;
+		}
+		const char *c_str() const
 		{
 			return m_data;
 		}
@@ -138,7 +149,7 @@ namespace MySTL
 			if(m_size==m_capacity-1)
 			{
 				m_capacity *= 2;
-				char* temp = new char[m_capacity];
+				char *temp = new char[m_capacity];
 				strcpy(temp, m_data);
 				delete[] m_data;
 				m_data = temp;
@@ -151,7 +162,7 @@ namespace MySTL
 			m_size -= 1;
 			m_data[m_size] = '\0';
 		}
-		void operator+=(const string& rhs)
+		void operator+=(const string &rhs)
 		{
 			size_t n = m_size + rhs.size() + 1;
 			if (m_capacity > n)
@@ -169,7 +180,7 @@ namespace MySTL
 				m_data = temp;
 			}
 		}
-		string& append(const string& rhs)
+		string &append(const string &rhs)
 		{
 			size_t n = m_size + rhs.size() + 1;
 			if (m_capacity > n)
@@ -188,7 +199,7 @@ namespace MySTL
 			}
 			return *this;
 		}
-		char& operator[](size_t n) 
+		char &operator[](size_t n) 
 		{
 			return m_data[n];
 		}
@@ -197,33 +208,33 @@ namespace MySTL
 		{
 			return m_size;
 		}
-		bool operator<(const string& rhs)
+		bool operator<(const string &rhs)
 		{
 			return strcmp(m_data, rhs.m_data) < 0;
 		}
-		bool operator<=(const string& rhs)
+		bool operator<=(const string &rhs)
 		{
 			return strcmp(m_data, rhs.m_data) <= 0;
 		}
-		bool operator!=(const string& rhs)
+		bool operator!=(const string &rhs)
 		{
 			return strcmp(m_data, rhs.m_data) != 0;
 		}
-		bool operator==(const string& rhs)
+		bool operator==(const string &rhs)
 		{
 			return strcmp(m_data, rhs.m_data) == 0;
 		}
-		bool operator>=(const string& rhs)
+		bool operator>=(const string &rhs)
 		{
 			return strcmp(m_data, rhs.m_data) >= 0;
 		}
-		bool operator>(const string& rhs)
+		bool operator>(const string &rhs)
 		{
 			return strcmp(m_data, rhs.m_data) > 0;
 		}
 
 
-		size_t find(const string& str,size_t pos = 0)
+		size_t find(const string &str,size_t pos = 0)
 		{
 			if (str.empty()|| str.size() + pos > m_size)
 			{
@@ -235,7 +246,7 @@ namespace MySTL
 			size_t k = 0;
 			for (size_t i = 1; i < n; ++i)
 			{
-				while (str[k]!= str[i] && k != 0)
+				while (str[k]!= str[i]  &&k != 0)
 				{
 					k = next[k];
 				}
@@ -265,7 +276,7 @@ namespace MySTL
 			}
 			return npos;
 		}
-		const char& operator[](size_t n) const
+		const char &operator[](size_t n) const
 		{
 			return m_data[n];
 		}
@@ -277,7 +288,7 @@ namespace MySTL
 
 	};
 
-	string operator+(const string& lhs, const string& rhs) 
+	string operator+(const string &lhs, const string &rhs)
 	{
 		size_t n = lhs.size();
 		string res(n+rhs.size());

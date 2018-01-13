@@ -12,8 +12,8 @@ namespace MySTL
 		T data;
 		list_node* prev;
 		list_node* next;
-		list_node(list_node* p, const T& val, list_node* n) :data(val), prev(p), next(n) {}
-		list_node(list_node* p, T&& val, list_node* n) :data(MySTL::forward<T>(val)), prev(p), next(n) {}
+		list_node(list_node* p, const T &val, list_node* n) :data(val), prev(p), next(n) {}
+		list_node(list_node* p, T &&val, list_node* n) :data(MySTL::forward<T>(val)), prev(p), next(n) {}
 		list_node(list_node* p, list_node* n) :data(), prev(p), next(n) {}
 	};
 
@@ -22,19 +22,19 @@ namespace MySTL
 	{
 		friend class list<T>;
 	private:
-		list_node* m_iterator;
+		list_node<T> *m_iterator;
 
 	public:
 
 		list_iterator() = default;
-		list_iterator(list_node* ptr) :m_iterator(ptr) {}
+		list_iterator(list_node<T> *ptr) :m_iterator(ptr) {}
 		list_iterator(const list_iterator&) = default;
 		void operator=(list_iterator rhs)
 		{
 			m_iterator = rhs.m_iterator;
 		}
 
-		void operator=(list_node* rhs)
+		void operator=(list_node<T> *rhs)
 		{
 			m_iterator = rhs;
 		}
@@ -69,7 +69,7 @@ namespace MySTL
 			return res;
 		}
 
-		T& operator*()
+		T &operator*()
 		{
 			return m_iterator->data;
 		}
@@ -83,10 +83,10 @@ namespace MySTL
 	template<typename T>
 	class list
 	{
-		using list_base = typename list_node<T>;
+		using list_base = list_node<T>;
 	public:
-		using iterator = typename list_iterator;
-		using reverse_iterator = typename reverse_iterator<iterator>;
+		using iterator = list_iterator<T>;
+		using reverse_iterator = reverse_iterator<iterator>;
 		list() :m_size(0), m_begin((list_base*) ::operator new(sizeof(list_base))),
 			m_end((list_base*) ::operator new(sizeof(list_base)))
 		{
@@ -102,7 +102,7 @@ namespace MySTL
 				_insert_between(cur, m_end);
 			}
 		}
-		list(size_t n, const T& val) :m_size(n)
+		list(size_t n, const T &val) :m_size(n)
 		{
 			_initial();
 			iterator cur = m_begin;
@@ -111,7 +111,7 @@ namespace MySTL
 				_insert_between(cur, val, m_end);
 			}
 		}
-		list(const list& rhs) :m_size(rhs.m_size)
+		list(const list &rhs) :m_size(rhs.m_size)
 		{
 			_initial();
 			iterator cur = m_begin;
@@ -120,7 +120,7 @@ namespace MySTL
 				cur = _insert_between(cur, *i, m_end);
 			}
 		}
-		list(list&& rhs) :m_size(rhs.m_size), m_begin(rhs.m_begin), m_end(rhs.m_end)
+		list(list &&rhs) :m_size(rhs.m_size), m_begin(rhs.m_begin), m_end(rhs.m_end)
 		{
 			rhs.m_begin = nullptr;
 			rhe.m_end = nullptr;
@@ -150,7 +150,7 @@ namespace MySTL
 			swap(rhs);
 		}
 
-		void swap(list& rhs)
+		void swap(list &rhs)
 		{
 			MySTL::swap(m_size, rhs.m_size);
 			MySTL::swap(m_begin, rhs.m_begin);
@@ -161,7 +161,7 @@ namespace MySTL
 		{
 			return m_size == 0;
 		}
-		iterator insert(iterator pos, const T& value)
+		iterator insert(iterator pos, const T &value)
 		{
 			iterator prev = pos;
 			--prev;
@@ -169,7 +169,7 @@ namespace MySTL
 			m_size += 1;
 			return res;
 		}
-		iterator insert(iterator pos, T&& value)
+		iterator insert(iterator pos, T &&value)
 		{
 			iterator prev = pos;
 			--prev;
@@ -179,8 +179,8 @@ namespace MySTL
 		}
 		iterator erase(iterator pos)
 		{
-			list_base* prev = pos.m_iterator->prev;
-			list_base* next = pos.m_iterator->next;
+			list_base *prev = pos.m_iterator->prev;
+			list_base *next = pos.m_iterator->next;
 			prev->next = next;
 			next->prev = prev;
 			delete pos.m_iterator;
@@ -188,8 +188,8 @@ namespace MySTL
 		}
 		iterator erase(iterator first, iterator last)
 		{
-			list_base* prev = first.m_iterator->prev;
-			list_base* cur = nullptr;
+			list_base *prev = first.m_iterator->prev;
+			list_base *cur = nullptr;
 			for (; first != last;)
 			{
 				cur = first.m_iterator;
@@ -202,7 +202,7 @@ namespace MySTL
 		}
 		void clear()
 		{
-			list_base* cur = nullptr;
+			list_base *cur = nullptr;
 			for (iterator i = begin(), e = end(); i != e;)
 			{
 				cur = i.m_iterator;
@@ -213,11 +213,11 @@ namespace MySTL
 			m_end.m_iterator->prev = m_begin.m_iterator;
 			m_size = 0;
 		}
-		void push_back(const T& val)
+		void push_back(const T &val)
 		{
 			insert(end(), val);
 		}
-		void push_back(T&& val)
+		void push_back(T &&val)
 		{
 			insert(end(), MySTL::forward<T>(val));
 		}
@@ -231,17 +231,17 @@ namespace MySTL
 		{
 			erase(begin());
 		}
-		void push_front(const T& val)
+		void push_front(const T &val)
 		{
 			_insert_between(m_begin, val, begin());
 			m_size -= 1;
 		}
-		void push_front(T&& val)
+		void push_front(T &&val)
 		{
 			_insert_between(m_begin, MySTL::forward<T>(val), begin());
 			m_size -= 1;
 		}
-		void splice(iterator pos, list& other)
+		void splice(iterator pos, list &other)
 		{
 			list_base* prev = pos.m_iterator->prev;
 			iterator first = other.begin();
@@ -253,7 +253,7 @@ namespace MySTL
 			other.m_begin.m_iterator->next = other.m_end.m_iterator;
 			other.m_end.m_iterator->prev = other.m_begin.m_iterator;
 		}
-		void splice(iterator pos, list&& other)
+		void splice(iterator pos, list &&other)
 		{
 			list_base* prev = pos.m_iterator->prev;
 			iterator first = other.begin();
@@ -265,11 +265,11 @@ namespace MySTL
 			other.m_begin.m_iterator->next = nullptr;
 			other.m_end.m_iterator->prev = nullptr;
 		}
-		T& front()
+		T &front()
 		{
 			return *begin();
 		}
-		T& back()
+		T &back()
 		{
 			return m_end.m_iterator->prev->data;
 		}
@@ -318,14 +318,14 @@ namespace MySTL
 			next_ite.m_iterator->prev = temp;
 			return temp;
 		}
-		iterator _insert_between(iterator prev_ite, const T& val, iterator next_ite)
+		iterator _insert_between(iterator prev_ite, const T &val, iterator next_ite)
 		{
 			list_base* temp = new list_base(prev_ite, val, next_ite);
 			prev_ite.m_iterator->next = temp;
 			next_ite.m_iterator->prev = temp;
 			return temp;
 		}
-		iterator _insert_between(iterator prev_ite, T&& val, iterator next_ite)
+		iterator _insert_between(iterator prev_ite, T &&val, iterator next_ite)
 		{
 			list_base* temp = new list_base(prev_ite, MySTL::forward<T>(val), next_ite);
 			prev_ite.m_iterator->next = temp;

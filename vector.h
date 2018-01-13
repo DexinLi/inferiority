@@ -22,7 +22,7 @@ namespace MySTL {
 			}
 		}
 		
-		vector(size_t n, const T& val) :m_capacity(n), m_data(nullptr), m_length(n)
+		vector(size_t n, const T &val) :m_capacity(n), m_data(nullptr), m_length(n)
 		{
 			if (n != 0)
 			{
@@ -32,20 +32,20 @@ namespace MySTL {
 		}
 
 
-		vector(const vector& rhs) :m_capacity(rhs.m_capacity), m_length(rhs.m_length)
+		vector(const vector &rhs) :m_capacity(rhs.m_capacity), m_length(rhs.m_length)
 		{
 			m_data = (T*) ::operator new (m_length * sizeof(T));
 			_fill_in(m_length, m_data, rhs.m_data);
 		}
-		vector(vector&& rhs) :m_data(rhs.m_data), m_capacity(rhs.m_capacity), m_length(rhs.m_length)
+		vector(vector &&rhs) :m_data(rhs.m_data), m_capacity(rhs.m_capacity), m_length(rhs.m_length)
 		{
 			rhs.m_data = nullptr;
 		}
-		void operator=(vector rhs)
+		void operator=(vector rhs) &
 		{
 			swap(rhs);
 		}
-		T& operator[](size_t n)
+		T &operator[](size_t n)
 		{
 			return m_data[n];
 		}
@@ -55,7 +55,7 @@ namespace MySTL {
 			return m_length == 0;
 		}
 
-		void push_back(const T& element)
+		void push_back(const T &element) &
 		{
 			if (m_data == nullptr)
 			{
@@ -74,7 +74,7 @@ namespace MySTL {
 			m_length += 1;
 		}
 
-		void push_back(T&& element)
+		void push_back(T &&element) &
 		{
 			if (m_data == nullptr)
 			{
@@ -93,19 +93,19 @@ namespace MySTL {
 			m_length += 1;
 		}
 
-		void pop_back()
+		void pop_back() &
 		{
 			destruct(m_data + m_length - 1);
 			m_length -= 1;
 		}
-		void swap(vector& rhs)
+		void swap(vector &rhs)
 		{
 			MySTL::swap(m_data, rhs.m_data);
 			MySTL::swap(m_capacity, rhs.m_capacity);
 			MySTL::swap(m_length, rhs.m_length);
 		}
 
-		void clear() 
+		void clear() &
 		{
 			m_length = 0;
 			m_capacity = 0;
@@ -127,33 +127,33 @@ namespace MySTL {
 			m_capacity = m_length;
 		}
 
-		iterator begin()
+		iterator begin() &
 		{
 			return m_data;
 		}
 
 
-		iterator end() 
+		iterator end() &
 		{
 			return m_data + m_length;
 		}
-		T& front()
+		T &front()
 		{
 			return *m_data;
 		}
-		T& back()
+		T &back()
 		{
 			return *(m_data + length - 1);
 		}
-		reverse_iterator rbegin()
+		reverse_iterator rbegin() &
 		{
 			return m_data + m_length - 1;
 		}
-		reverse_iterator rend()
+		reverse_iterator rend() &
 		{
 			return m_data - 1;
 		}
-		void resize(size_t n)
+		void resize(size_t n) &
 		{
 			m_capacity = n;
 			if (n > m_capacity)
@@ -175,6 +175,10 @@ namespace MySTL {
 			return m_capacity;
 		}
 		const T* data() const
+		{
+			return m_data;
+		}
+		T *data()
 		{
 			return m_data;
 		}
