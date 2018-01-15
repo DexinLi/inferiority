@@ -27,8 +27,6 @@ Use some template metaprogramming in `swap()` function, not the same way as STL 
 
 ## TO DO
 
-**option**
-
 **memory**
 
 **dynamic_bitset**
