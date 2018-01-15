@@ -1,6 +1,6 @@
 #pragma once
 #include"utility.h"
-namespace MySTL
+namespace inferiority
 {
 	namespace function_impl
 	{
@@ -21,10 +21,10 @@ namespace MySTL
 			Func m_func;
 		public:
 			functor(const Func &func) : m_func(func) {}
-			functor(Func &&func) : m_func(MySTL::forward<Func>(func)) {}
+			functor(Func &&func) : m_func(inferiority::forward<Func>(func)) {}
 			Ret operator()(Args... args) override
 			{
-				return m_func(MySTL::forward<Args>(args)...);
+				return m_func(inferiority::forward<Args>(args)...);
 			}
 			functor_base* copy_self() override
 			{
@@ -47,10 +47,10 @@ namespace MySTL
 	public:
 		function() : m_function(nullptr), m_functor(nullptr) {}
 		function(func_type func) : m_function(func),m_functor(nullptr){}
-		template<class Func, class = MySTL::check_if_t<is_class,Func>>
+		template<class Func, class = inferiority::check_if_t<is_class,Func>>
 		function(Func func) : m_function(nullptr)
 		{
-			m_functor = new functor<Func, Ret, Args...>(MySTL::move(func));
+			m_functor = new functor<Func, Ret, Args...>(inferiority::move(func));
 		}
 		function(const function &rhs) : m_function(rhs.m_function), m_functor(nullptr)
 		{
@@ -71,14 +71,14 @@ namespace MySTL
 		{
 			if (m_function != nullptr)
 			{
-				return m_function(MySTL::forward<Args>(args)...);
+				return m_function(inferiority::forward<Args>(args)...);
 			}
-			return (*m_functor)(MySTL::forward<Args>(args)...);
+			return (*m_functor)(inferiority::forward<Args>(args)...);
 		}
 		void swap(function &rhs)
 		{
-			MySTL::swap(m_function, rhs.m_function);
-			MySTL::swap(m_functor, rhs.m_functor);
+			inferiority::swap(m_function, rhs.m_function);
+			inferiority::swap(m_functor, rhs.m_functor);
 		}
 		~function()
 		{

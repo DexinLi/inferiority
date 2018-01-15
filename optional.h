@@ -1,7 +1,7 @@
 #pragma once
 #include "utility.h"
 
-namespace MySTL
+namespace inferiority
 {
 	namespace
 	{
@@ -16,7 +16,7 @@ namespace MySTL
 				rhs.m_element = nullptr;
 			}
 			large_option(T &e) : m_element(new T(e)) {}
-			large_option(T &&e) : m_element(new T(MySTL::forward<T>(e))) {}
+			large_option(T &&e) : m_element(new T(inferiority::forward<T>(e))) {}
 			void operator=(large_option rhs)
 			{
 				swap(rhs);
@@ -27,7 +27,7 @@ namespace MySTL
 			}
 			void swap(large_option &rhs)
 			{
-				MySTL::swap(m_element, rhs.m_element);
+				inferiority::swap(m_element, rhs.m_element);
 			}
 			T &value()
 			{
@@ -86,7 +86,7 @@ namespace MySTL
 				if(m)
 				{
 					container[ele_size - 1] = e;
-					::new ((void *)container) T(MySTL::forward<T>(rhs.m_element()));
+					::new ((void *)container) T(inferiority::forward<T>(rhs.m_element()));
 					rhs.m_mark() = false;
 				}
 			}
@@ -99,7 +99,7 @@ namespace MySTL
 
 				}
 			}
-			constexpr small_option(T &&e) : m_element(true), m_element(MySTL::forward<T>(e)) {}
+			constexpr small_option(T &&e) : m_element(true), m_element(inferiority::forward<T>(e)) {}
 			~small_option()
 			{
 				if(!empty())
@@ -117,7 +117,7 @@ namespace MySTL
 			}
 			void swap(small_option &rhs)
 			{
-				MySTL::swap(m_element(), rhs.m_element());
+				inferiority::swap(m_element(), rhs.m_element());
 			}
 			constexpr T &value()
 			{
@@ -174,9 +174,9 @@ namespace MySTL
 	public:
 		constexpr optional() = default;
 		constexpr optional(T &e) :m_element(e) {}
-		constexpr optional(T &&e) :m_element(MySTL::forward<T>(e)) {}
+		constexpr optional(T &&e) :m_element(inferiority::forward<T>(e)) {}
 		constexpr optional(optional &rhs) : m_element(rhs.m_element) {}
-		constexpr optional(optional &&rhs) : m_element(MySTL::forward<T>(rhs.m_element)) {}
+		constexpr optional(optional &&rhs) : m_element(inferiority::forward<T>(rhs.m_element)) {}
 		~optional() = default;
 		void operator=(optional &rhs)
 		{
@@ -184,7 +184,7 @@ namespace MySTL
 		}
 		void operator=(optional &&rhs)
 		{
-			m_element = MySTL::forward<T>(rhs.m_element);
+			m_element = inferiority::forward<T>(rhs.m_element);
 		}
 		constexpr explicit operator bool() const
 		{
@@ -204,7 +204,7 @@ namespace MySTL
 		}
 		T value_or(T &&e)
 		{
-			return m_element.value_or(MySTL::forward<T>(e));
+			return m_element.value_or(inferiority::forward<T>(e));
 		}
 		T* get()
 		{

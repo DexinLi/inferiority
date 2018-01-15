@@ -2,7 +2,7 @@
 #include"utility.h"
 //#include<initializer_list>
 
-namespace MySTL {
+namespace inferiority {
 	template<typename T>
 	class vector
 	{
@@ -79,7 +79,7 @@ namespace MySTL {
 			if (m_data == nullptr)
 			{
 				m_data = (T*) ::operator new (initial_capacity * sizeof(T));
-				construct(m_data, MySTL::forward<T>(element));
+				construct(m_data, inferiority::forward<T>(element));
 				m_capacity = initial_capacity;
 				m_length = 1;
 				return;
@@ -89,7 +89,7 @@ namespace MySTL {
 				m_capacity += m_capacity / 2;
 				m_data = _move_to(m_data, 0, m_length,0, m_capacity);
 			}
-			construct(m_data + m_length, MySTL::forward<T>(element));
+			construct(m_data + m_length, inferiority::forward<T>(element));
 			m_length += 1;
 		}
 
@@ -100,9 +100,9 @@ namespace MySTL {
 		}
 		void swap(vector &rhs)
 		{
-			MySTL::swap(m_data, rhs.m_data);
-			MySTL::swap(m_capacity, rhs.m_capacity);
-			MySTL::swap(m_length, rhs.m_length);
+			inferiority::swap(m_data, rhs.m_data);
+			inferiority::swap(m_capacity, rhs.m_capacity);
+			inferiority::swap(m_length, rhs.m_length);
 		}
 
 		void clear() &

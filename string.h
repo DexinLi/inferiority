@@ -2,7 +2,7 @@
 #include<cstring>
 #include"utility.h"
 
-namespace MySTL
+namespace inferiority
 {
 	class string
 	{
@@ -62,9 +62,9 @@ namespace MySTL
 
 		void swap(string &rhs)
 		{
-			MySTL::swap(m_data,rhs.m_data);
-			MySTL::swap(m_capacity, rhs.m_capacity);
-			MySTL::swap(m_size, rhs.m_size);
+			inferiority::swap(m_data,rhs.m_data);
+			inferiority::swap(m_capacity, rhs.m_capacity);
+			inferiority::swap(m_size, rhs.m_size);
 		}
 		iterator begin() 
 		{

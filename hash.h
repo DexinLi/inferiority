@@ -2,7 +2,7 @@
 #include"utility.h"
 #include"string.h"
 #include"list.h"
-namespace MySTL
+namespace inferiority
 {
 	template<typename Key>
 	struct hash
@@ -14,9 +14,9 @@ namespace MySTL
 	};
 
 	template<>
-	struct hash<MySTL::string>
+	struct hash<inferiority::string>
 	{
-		size_t operator()(MySTL::string &str)
+		size_t operator()(inferiority::string &str)
 		{
 			size_t h = initial_val;
 			for (size_t i = 0, e = str.length(); i != e; ++i)

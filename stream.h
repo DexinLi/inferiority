@@ -1,7 +1,7 @@
 #include "functional.h"
 #include "vector.h"
 #include "optional.h"
-namespace MySTL{
+namespace inferiority{
 	//Write a macro named has_member()
 	namespace
 	{
@@ -12,7 +12,7 @@ namespace MySTL{
 	template <typename T>
 	class stream
 	{
-		MySTL::function<option<T>()> m_get_next;
+		inferiority::function<option<T>()> m_get_next;
 		template<typename Func>
 		stream(Func func):m_get_next(func) {}
 	public:
@@ -27,7 +27,7 @@ namespace MySTL{
 			++begin;
 			return res;
 		}) {}
-		template <class C,class = MySTL::check_if_t<MySTL::has_member_push,C>>
+		template <class C,class = inferiority::check_if_t<inferiority::has_member_push,C>>
 		C convert_to()
 		{
 			C res;
@@ -37,7 +37,7 @@ namespace MySTL{
 			}
 			return res;
 		}
-		template <class C,class = MySTL::check_if_t<MySTL::has_member_push_back,C>>
+		template <class C,class = inferiority::check_if_t<inferiority::has_member_push_back,C>>
 		C convert_to()
 		{
 			C res;
@@ -47,7 +47,7 @@ namespace MySTL{
 			}
 			return res;
 		}
-		template <class C,class = MySTL::check_if_t<MySTL::has_member_insert,C>>
+		template <class C,class = inferiority::check_if_t<inferiority::has_member_insert,C>>
 		C convert_to()
 		{
 			C res;
@@ -68,7 +68,7 @@ namespace MySTL{
 		auto map(Func func) &&
 		{
 			using Ret = stream<decltype(func(m_get_next()))>;
-			Ret res([m_get_next = MySTL::move(m_get_next)](){return func(m_get_next());});
+			Ret res([m_get_next = inferiority::move(m_get_next)](){return func(m_get_next());});
 			return res;
 		}
 		template<class Predict>
@@ -92,7 +92,7 @@ namespace MySTL{
 		stream<T> filter(Predict p) &&
 		{
 			using Ret = stream<T>;
-			Ret res([m_get_next = MySTL::move(m_get_next)]()->optional<T>
+			Ret res([m_get_next = inferiority::move(m_get_next)]()->optional<T>
 			{
 				while(auto r = m_get_next();)
 				{

@@ -1,7 +1,7 @@
 #pragma once
 #include"utility.h"
 
-namespace MySTL
+namespace inferiority
 {
 	template<typename T>
 	class list;
@@ -13,7 +13,7 @@ namespace MySTL
 		list_node* prev;
 		list_node* next;
 		list_node(list_node* p, const T &val, list_node* n) :data(val), prev(p), next(n) {}
-		list_node(list_node* p, T &&val, list_node* n) :data(MySTL::forward<T>(val)), prev(p), next(n) {}
+		list_node(list_node* p, T &&val, list_node* n) :data(inferiority::forward<T>(val)), prev(p), next(n) {}
 		list_node(list_node* p, list_node* n) :data(), prev(p), next(n) {}
 	};
 
@@ -152,9 +152,9 @@ namespace MySTL
 
 		void swap(list &rhs)
 		{
-			MySTL::swap(m_size, rhs.m_size);
-			MySTL::swap(m_begin, rhs.m_begin);
-			MySTL::swap(m_end, rhs.m_end);
+			inferiority::swap(m_size, rhs.m_size);
+			inferiority::swap(m_begin, rhs.m_begin);
+			inferiority::swap(m_end, rhs.m_end);
 		}
 
 		bool empty()
@@ -173,7 +173,7 @@ namespace MySTL
 		{
 			iterator prev = pos;
 			--prev;
-			iterator res = _insert_between(prev, MySTL::forward<T>(val), pos);
+			iterator res = _insert_between(prev, inferiority::forward<T>(val), pos);
 			m_size += 1;
 			return res;
 		}
@@ -219,7 +219,7 @@ namespace MySTL
 		}
 		void push_back(T &&val)
 		{
-			insert(end(), MySTL::forward<T>(val));
+			insert(end(), inferiority::forward<T>(val));
 		}
 		void pop_back()
 		{
@@ -238,7 +238,7 @@ namespace MySTL
 		}
 		void push_front(T &&val)
 		{
-			_insert_between(m_begin, MySTL::forward<T>(val), begin());
+			_insert_between(m_begin, inferiority::forward<T>(val), begin());
 			m_size -= 1;
 		}
 		void splice(iterator pos, list &other)
@@ -280,11 +280,11 @@ namespace MySTL
 				list_base* cur = i.m_iterator;
 				list_base* next = cur->next;
 				cur = next;
-				MySTL::swap(cur->prev, cur->next);
+				inferiority::swap(cur->prev, cur->next);
 				i = cur;
 			}
-			MySTL::swap(m_end.m_iterator->prev, m_end.m_iterator->next);
-			MySTL::swap(m_begin, m_end);
+			inferiority::swap(m_end.m_iterator->prev, m_end.m_iterator->next);
+			inferiority::swap(m_begin, m_end);
 		}
 		~list()
 		{
@@ -327,7 +327,7 @@ namespace MySTL
 		}
 		iterator _insert_between(iterator prev_ite, T &&val, iterator next_ite)
 		{
-			list_base* temp = new list_base(prev_ite, MySTL::forward<T>(val), next_ite);
+			list_base* temp = new list_base(prev_ite, inferiority::forward<T>(val), next_ite);
 			prev_ite.m_iterator->next = temp;
 			next_ite.m_iterator->prev = temp;
 			return temp;

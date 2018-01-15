@@ -1,7 +1,7 @@
 #pragma once
 #include"functional.h"
 #include"vector.h"
-namespace MySTL
+namespace inferiority
 {
 	template<class InputIt, class OutputIt>
 	OutputIt copy(InputIt first, InputIt last,
@@ -34,7 +34,7 @@ namespace MySTL
 				{
 					if (comp(*cur, *left))
 					{
-						MySTL::swap(*cur, *left);
+						inferiority::swap(*cur, *left);
 						index = r;
 					}
 				}
@@ -42,7 +42,7 @@ namespace MySTL
 				{
 					if (comp(*cur, *right))
 					{
-						MySTL::swap(*cur, *right);
+						inferiority::swap(*cur, *right);
 						index = l;
 					}
 				}
@@ -51,7 +51,7 @@ namespace MySTL
 			{
 				if (comp(*cur, *left))
 				{
-					MySTL::swap(*cur, *left);
+					inferiority::swap(*cur, *left);
 					index = l;
 				}
 			}
@@ -75,7 +75,7 @@ namespace MySTL
 				{
 					if (*cur<*left)
 					{
-						MySTL::swap(*cur, *left);
+						inferiority::swap(*cur, *left);
 						index = r;
 					}
 				}
@@ -83,7 +83,7 @@ namespace MySTL
 				{
 					if (*cur < *right)
 					{
-						MySTL::swap(*cur, *right);
+						inferiority::swap(*cur, *right);
 						index = l;
 					}
 				}
@@ -92,7 +92,7 @@ namespace MySTL
 			{
 				if (*cur < *left)
 				{
-					MySTL::swap(*cur, *left);
+					inferiority::swap(*cur, *left);
 					index = l;
 				}
 			}
@@ -140,7 +140,7 @@ namespace MySTL
 			{
 				return;
 			}
-			MySTL::swap(*cur, *father);
+			inferiority::swap(*cur, *father);
 			n = ac;
 		}
 	}
@@ -157,7 +157,7 @@ namespace MySTL
 			{
 				return;
 			}
-			MySTL::swap(*cur, *father);
+			inferiority::swap(*cur, *father);
 			n = ac;
 		}
 	}
@@ -170,7 +170,7 @@ namespace MySTL
 		{
 			return;
 		}
-		MySTL::swap(*first, *(last - 1));
+		inferiority::swap(*first, *(last - 1));
 		heaptify(first, 0, n);
 	}
 
@@ -182,7 +182,7 @@ namespace MySTL
 		{
 			return;
 		}
-		MySTL::swap(*first, *(last - 1));
+		inferiority::swap(*first, *(last - 1));
 		heaptify(first, 0, n, comp);
 	}
 
@@ -244,12 +244,12 @@ namespace MySTL
 		{
 			if (*middle < *first)
 			{
-				MySTL::swap(*first, *middle);
+				inferiority::swap(*first, *middle);
 				++middle;
 			}
 			if (*cur < *first)
 			{
-				MySTL::swap(*first, *cur);
+				inferiority::swap(*first, *cur);
 				++cur;
 			}
 			++first;
@@ -264,12 +264,12 @@ namespace MySTL
 		{
 			if (comp(*middle, *first))
 			{
-				MySTL::swap(*first, *middle);
+				inferiority::swap(*first, *middle);
 				++middle;
 			}
 			if (comp(*cur, *first))
 			{
-				MySTL::swap(*first, *cur);
+				inferiority::swap(*first, *cur);
 				++cur;
 			}
 			++first;
@@ -297,7 +297,7 @@ namespace MySTL
 			}
 			if (middle != last)
 			{
-				MySTL::swap(*first, *middle);
+				inferiority::swap(*first, *middle);
 			}
 		}
 		return first;
@@ -308,9 +308,9 @@ namespace MySTL
 	{
 		if (first == last) return;
 		auto pivot = *first;
-		RandomIt middle1 = MySTL::partition(first, last,
+		RandomIt middle1 = inferiority::partition(first, last,
 			[pivot](const auto &x) { return x < pivot; });
-		RandomIt middle2 = MySTL::partition(middle1, last,
+		RandomIt middle2 = inferiority::partition(middle1, last,
 			[pivot](const auto &x) { return !(pivot < x); });
 		sort(first, middle1);
 		sort(middle2, last);
@@ -322,9 +322,9 @@ namespace MySTL
 	{
 		if (first == last) return;
 		auto pivot = *first;
-		RandomIt middle1 = MySTL::partition(first, last,
+		RandomIt middle1 = inferiority::partition(first, last,
 			[pivot,&comp](const auto &x) { return comp(x,pivot); });
-		RandomIt middle2 = MySTL::partition(middle1, last,
+		RandomIt middle2 = inferiority::partition(middle1, last,
 			[pivot,&comp](const auto &x) { return !comp(pivot,x); });
 		sort(first, middle1);
 		sort(middle2, last);
@@ -398,7 +398,7 @@ namespace MySTL
 	template<class RandomIt, class T>
 	bool binary_search(RandomIt first, RandomIt last, const T &value)
 	{
-		first = MySTL::lower_bound(first, last, value);
+		first = inferiority::lower_bound(first, last, value);
 		return (!(first == last)  &&!(value < *first));
 	}
 
@@ -406,7 +406,7 @@ namespace MySTL
 	template<class RandomIt, class T, class Compare>
 	bool binary_search(RandomIt first, RandomIt last, const T &value, Compare comp)
 	{
-		first = MySTL::lower_bound(first, last, value, comp);
+		first = inferiority::lower_bound(first, last, value, comp);
 		return (!(first == last)  &&!(comp(value, *first)));
 	}
 
@@ -453,20 +453,20 @@ namespace MySTL
 	}
 
 	template<class ForwardIt, class T>
-	MySTL::pair<ForwardIt, ForwardIt>
+	inferiority::pair<ForwardIt, ForwardIt>
 		equal_range(ForwardIt first, ForwardIt last,const T &value)
 	{
-		return MySTL::make_pair(MySTL::lower_bound(first,last,value),
-			MySTL::upper_bound(first, last, value));
+		return inferiority::make_pair(inferiority::lower_bound(first,last,value),
+			inferiority::upper_bound(first, last, value));
 	}
 
 
 	template<class ForwardIt, class T, class Compare>
-	MySTL::pair<ForwardIt, ForwardIt>
+	inferiority::pair<ForwardIt, ForwardIt>
 		equal_range(ForwardIt first, ForwardIt last,const T &value, Compare comp)
 	{
-		return MySTL::make_pair(MySTL::lower_bound(first, last, value, comp),
-			MySTL::upper_bound(first, last, value, comp));
+		return inferiority::make_pair(inferiority::lower_bound(first, last, value, comp),
+			inferiority::upper_bound(first, last, value, comp));
 	}
 
 

@@ -1,6 +1,6 @@
 #pragma once
 using size_t = decltype(sizeof(0));
-namespace MySTL
+namespace inferiority
 {
 	template<typename T>
 	class reverse_iterator
@@ -170,9 +170,9 @@ namespace MySTL
 		{
 			static void swap(T&x, T&y)
 			{
-				T temp = MySTL::move(x);
-				x = MySTL::move(y);
-				y = MySTL::move(temp);
+				T temp = inferiority::move(x);
+				x = inferiority::move(y);
+				y = inferiority::move(temp);
 			}
 		};
 
@@ -235,7 +235,7 @@ namespace MySTL
 	template <class T, class... Args>
 	void construct(T* p, Args&&... args)
 	{
-		::new ((void*)p) T(MySTL::forward<Args>(args)...);
+		::new ((void*)p) T(inferiority::forward<Args>(args)...);
 	}
 
 	template <class T>
@@ -261,7 +261,7 @@ namespace MySTL
 	{
 		for (size_t i = 0; i < n; ++i)
 		{
-			construct(p + i, MySTL::forward<Args>(args)...);
+			construct(p + i, inferiority::forward<Args>(args)...);
 		}
 	}
 
@@ -288,9 +288,9 @@ namespace MySTL
 		T2 second;
 		constexpr pair() :first(), second() {}
 		constexpr pair(const T1 &val1, const T2 &val2) : first(val1), second(val2) {}
-		constexpr pair(const T1 &val1, T2 &&val2) : first(val1), second(MySTL::forward<T2>(val2)) {}
-		constexpr pair(T1 &&val1, const T2 &val2) : first(MySTL::forward<T1>(val1)), second(val2) {}
-		constexpr pair(T1 &&val1, T2 &&val2) : first(MySTL::forward<T1>(val1)), second(MySTL::forward<T2>(val2)) {}
+		constexpr pair(const T1 &val1, T2 &&val2) : first(val1), second(inferiority::forward<T2>(val2)) {}
+		constexpr pair(T1 &&val1, const T2 &val2) : first(inferiority::forward<T1>(val1)), second(val2) {}
+		constexpr pair(T1 &&val1, T2 &&val2) : first(inferiority::forward<T1>(val1)), second(inferiority::forward<T2>(val2)) {}
 
 		pair(const pair&) = default;
 		pair(pair&&) = default;
@@ -302,8 +302,8 @@ namespace MySTL
 
 		void operator=(pair &&rhs) &
 		{
-			first = MySTL::forward < pair<T1, T2>>(rhs).first;
-			second = MySTL::forward < pair<T1, T2>>(rhs).second;
+			first = inferiority::forward < pair<T1, T2>>(rhs).first;
+			second = inferiority::forward < pair<T1, T2>>(rhs).second;
 		}
 		constexpr bool operator<(const pair &rhs)
 		{
@@ -331,8 +331,8 @@ namespace MySTL
 
 		void swap(const pair &rhs)
 		{
-			MySTL::swap(first, rhs.first);
-			MySTL::swap(second, rhs.second);
+			inferiority::swap(first, rhs.first);
+			inferiority::swap(second, rhs.second);
 		}
 
 	};
@@ -340,7 +340,7 @@ namespace MySTL
 	template<typename T1, typename T2>
 	constexpr pair<T1, T2> make_pair(T1 val1, T2 val2)
 	{
-		return pair<T1, T2>(MySTL::move(val1), MySTL::move(val2));
+		return pair<T1, T2>(inferiority::move(val1), inferiority::move(val2));
 	}
 
 }

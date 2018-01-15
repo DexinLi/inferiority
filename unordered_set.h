@@ -4,13 +4,13 @@
 
 
 
-namespace MySTL 
+namespace inferiority 
 {
-	template<typename Key, typename Hash = MySTL::hash<Key>, typename KeyEqual = MySTL::equal_to<Key>>
+	template<typename Key, typename Hash = inferiority::hash<Key>, typename KeyEqual = inferiority::equal_to<Key>>
 	class unordered_set
 	{
 		static const int initial_capacity = 4;
-		using slot_type = MySTL::list<Key>*;
+		using slot_type = inferiority::list<Key>*;
 		slot_type* m_data;
 		size_t m_size;
 		size_t m_capacity;
@@ -56,9 +56,9 @@ namespace MySTL
 
 		void swap(unordered_set &rhs)
 		{
-			MySTL::swap(m_size, rhs.m_size);
-			MySTL::swap(m_capacity, rhs.m_capacity);
-			MySTL::swap(m_data, rhs.m_data);
+			inferiority::swap(m_size, rhs.m_size);
+			inferiority::swap(m_capacity, rhs.m_capacity);
+			inferiority::swap(m_data, rhs.m_data);
 		}
 		iterator insert(const Key &key)
 		{
@@ -75,9 +75,9 @@ namespace MySTL
 							size_t index = hash_func(*j) % m_capacity;
 							if (temp[index] == nullptr)
 							{
-								temp[index] = new MySTL::list<Key>();
+								temp[index] = new inferiority::list<Key>();
 							}
-							temp[index]->push_back(MySTL::move(*j));
+							temp[index]->push_back(inferiority::move(*j));
 							m_data[i]->erase(j)
 								j = m_data[i]->begin();
 						}
@@ -90,7 +90,7 @@ namespace MySTL
 			size_t index = hash_func(key) % m_capacity;
 			if (m_data[index] == nullptr)
 			{
-				m_data[index] = new MySTL::list<Key>();
+				m_data[index] = new inferiority::list<Key>();
 			}
 			m_data[index]->push_front(key);
 			return{ this,index,m_data[index]->begin() };
@@ -111,9 +111,9 @@ namespace MySTL
 							size_t index = hash_func(*j) % m_capacity;
 							if (temp[index] == nullptr)
 							{
-								temp[index] = new MySTL::list<Key>();
+								temp[index] = new inferiority::list<Key>();
 							}
-							temp[index]->push_back(MySTL::move(*j));
+							temp[index]->push_back(inferiority::move(*j));
 							m_data[i]->erase(j)
 								j = m_data[i]->begin();
 						}
@@ -127,9 +127,9 @@ namespace MySTL
 			size_t index = hash_func(key) % m_capacity;
 			if (m_data[index] == nullptr)
 			{
-				m_data[index] = new MySTL::list<Key>();
+				m_data[index] = new inferiority::list<Key>();
 			}
-			m_data[index]->push_front(MySTL::forward<Key>(key));
+			m_data[index]->push_front(inferiority::forward<Key>(key));
 			return{ this, index, m_data[index]->begin() };
 		}
 
@@ -245,9 +245,9 @@ namespace MySTL
 	{
 		unordered_set<Key>* set;
 		size_t index;
-		MySTL::list<Key>::iterator list_ite;
+		inferiority::list<Key>::iterator list_ite;
 	public:
-		hash_set_iterator(unordered_set<Key>* s, size_t i, MySTL::list<Key>::iterator ite) :set(s), index(i), list_ite(ite) {}
+		hash_set_iterator(unordered_set<Key>* s, size_t i, inferiority::list<Key>::iterator ite) :set(s), index(i), list_ite(ite) {}
 		hash_set_iterator(const hash_set_iterator &rhs) = default;
 		void operator=(const hash_set_iterator &rhs)
 		{

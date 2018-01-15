@@ -4,14 +4,14 @@
 
 
 
-namespace MySTL 
+namespace inferiority 
 {
-	template<typename Key, typename Value, typename Hash = MySTL::hash<Key>, typename KeyEqual = MySTL::equal_to<Key>>
+	template<typename Key, typename Value, typename Hash = inferiority::hash<Key>, typename KeyEqual = inferiority::equal_to<Key>>
 	class unordered_map
 	{
 		static const int initial_capacity = 4;
-		using Pair = MySTL::pair<Key, Value>;
-		using slot_type = MySTL::list<Pair>*;
+		using Pair = inferiority::pair<Key, Value>;
+		using slot_type = inferiority::list<Pair>*;
 		slot_type* m_data;
 		size_t m_size;
 		size_t m_capacity;
@@ -57,9 +57,9 @@ namespace MySTL
 
 		void swap(unordered_map &rhs)
 		{
-			MySTL::swap(m_size, rhs.m_size);
-			MySTL::swap(m_capacity, rhs.m_capacity);
-			MySTL::swap(m_data, rhs.m_data);
+			inferiority::swap(m_size, rhs.m_size);
+			inferiority::swap(m_capacity, rhs.m_capacity);
+			inferiority::swap(m_data, rhs.m_data);
 		}
 		iterator insert(const Pair &p)
 		{
@@ -77,9 +77,9 @@ namespace MySTL
 							size_t index = hash_func(*j) % m_capacity;
 							if (temp[index] == nullptr)
 							{
-								temp[index] = new MySTL::list<Pair>();
+								temp[index] = new inferiority::list<Pair>();
 							}
-							temp[index]->push_back(MySTL::move(*j));
+							temp[index]->push_back(inferiority::move(*j));
 							m_data[i]->erase(j)
 								j = m_data[i]->begin();
 						}
@@ -92,7 +92,7 @@ namespace MySTL
 			size_t index = hash_func(key) % m_capacity;
 			if (m_data[index] == nullptr)
 			{
-				m_data[index] = new MySTL::list<Pair>();
+				m_data[index] = new inferiority::list<Pair>();
 			}
 			m_data[index]->push_front(p);
 			return{ this,index,m_data[index]->begin() };
@@ -114,9 +114,9 @@ namespace MySTL
 							size_t index = hash_func(*j) % m_capacity;
 							if (temp[index] == nullptr)
 							{
-								temp[index] = new MySTL::list<Pair>();
+								temp[index] = new inferiority::list<Pair>();
 							}
-							temp[index]->push_back(MySTL::move(*j));
+							temp[index]->push_back(inferiority::move(*j));
 							m_data[i]->erase(j)
 								j = m_data[i]->begin();
 						}
@@ -130,9 +130,9 @@ namespace MySTL
 			size_t index = hash_func(key) % m_capacity;
 			if (m_data[index] == nullptr)
 			{
-				m_data[index] = new MySTL::list<Pair>();
+				m_data[index] = new inferiority::list<Pair>();
 			}
-			m_data[index]->push_front(MySTL::forward<Pair>(p));
+			m_data[index]->push_front(inferiority::forward<Pair>(p));
 			return{ this, index, m_data[index]->begin() };
 		}
 
@@ -214,7 +214,7 @@ namespace MySTL
 			size_t index = hash_func(key) % m_capacity;
 			if (m_data[index] == nullptr)
 			{
-				m_data[index] = new MySTL::list<Pair>(1, Value());
+				m_data[index] = new inferiority::list<Pair>(1, Value());
 				return m_data[index]->front().second;
 			}
 			for (auto i = m_data[index]->begin(), e = m_data[index]->end(); i != e; ++i)
@@ -261,10 +261,10 @@ namespace MySTL
 	{
 		unordered_map<Key, Value>* set;
 		size_t index;
-		MySTL::list<Pair>::iterator list_ite;
-		using Pair = MySTL::pair<Key, Value>;
+		inferiority::list<Pair>::iterator list_ite;
+		using Pair = inferiority::pair<Key, Value>;
 	public:
-		hash_map_iterator(unordered_map<Key, Value>* s, size_t i, MySTL::list<Pair>::iterator ite) :set(s), index(i), list_ite(ite) {}
+		hash_map_iterator(unordered_map<Key, Value>* s, size_t i, inferiority::list<Pair>::iterator ite) :set(s), index(i), list_ite(ite) {}
 		hash_map_iterator(const hash_map_iterator &rhs) = default;
 		void operator=(const hash_map_iterator &rhs)
 		{

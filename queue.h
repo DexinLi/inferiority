@@ -1,7 +1,7 @@
 #pragma once
 #include"vector.h"
 #include"algorithm.h"
-namespace MySTL
+namespace inferiority
 {
 	template<typename T>
 	class deque
@@ -79,7 +79,7 @@ namespace MySTL
 				m_capacity = initial_capacity;
 				m_begin = initial_begin;
 				m_data = (T*) ::operator new(sizeof(T)*initial_capacity);
-				construct(m_data + m_begin, MySTL::forward<T>(val));
+				construct(m_data + m_begin, inferiority::forward<T>(val));
 				return;
 			}
 			if (m_begin + m_size == m_capacity)
@@ -87,7 +87,7 @@ namespace MySTL
 				m_capacity += m_size;
 				m_data = _move_to(m_data, m_begin, m_size,m_begin, m_capacity);
 			}
-			construct(m_data + m_begin + m_size, MySTL::forward<T>(val));
+			construct(m_data + m_begin + m_size, inferiority::forward<T>(val));
 			m_size += 1;
 		}
 
@@ -121,7 +121,7 @@ namespace MySTL
 				m_capacity = initial_capacity;
 				m_begin = initial_begin;
 				m_data = (T*) ::operator new(sizeof(T)*initial_capacity);
-				construct(m_data + m_begin,MySTL::forward<T>(val));
+				construct(m_data + m_begin,inferiority::forward<T>(val));
 				return;
 			}
 			if (m_begin == 0)
@@ -131,7 +131,7 @@ namespace MySTL
 				m_begin = m_size - 1;
 			}
 			m_size += 1;
-			construct(m_data + m_begin,MySTL::forward<T>(val));
+			construct(m_data + m_begin,inferiority::forward<T>(val));
 		}
 
 		void pop_back()
@@ -168,9 +168,9 @@ namespace MySTL
 
 		void swap(const deque &rhs)
 		{
-			MySTL::swap(m_begin,rhs.m_begin);
-			MySTL::swap(m_capacity, rhs.m_capacity);
-			MySTL::swap(m_data, rhs.m_data);
+			inferiority::swap(m_begin,rhs.m_begin);
+			inferiority::swap(m_capacity, rhs.m_capacity);
+			inferiority::swap(m_data, rhs.m_data);
 		}
 
 		size_t size()
@@ -287,7 +287,7 @@ namespace MySTL
 				m_capacity == m_size*2;
 				m_data = _move_to(m_data, m_begin, m_size, 0, m_capacity);
 			}
-			construct(m_data + m_begin + m_size,MySTL::forward<T>(val));
+			construct(m_data + m_begin + m_size,inferiority::forward<T>(val));
 			m_size += 1;
 		}
 		void pop()
@@ -312,19 +312,19 @@ namespace MySTL
 
 
 
-	template <typename T, typename Comparer= MySTL::less<T>,typename Container = MySTL::vector<T>>
+	template <typename T, typename Comparer= inferiority::less<T>,typename Container = inferiority::vector<T>>
 	class priority_queue
 	{
 	public:
 		explicit priority_queue() :m_container(), m_comparer() {}
 		priority_queue(const Comparer &comparer, const Container &cont):m_comparer(comparer),m_container(cont)
 		{
-			MySTL::make_heap(m_container.begin(), m_container.end(), m_comparer);
+			inferiority::make_heap(m_container.begin(), m_container.end(), m_comparer);
 		}
 		priority_queue(const Comparer &comparer, Container &&cont) :m_comparer(comparer),
-			m_container(MySTL::forward<Container>(cont)) 
+			m_container(inferiority::forward<Container>(cont)) 
 		{
-			MySTL::make_heap(m_container.begin(), m_container.end(), m_comparer);
+			inferiority::make_heap(m_container.begin(), m_container.end(), m_comparer);
 		}
 		priority_queue(const Comparer &comparer):m_comparer(comparer),m_container(){}
 		priority_queue(const priority_queue &rhs) = default;
@@ -335,8 +335,8 @@ namespace MySTL
 		}
 		void swap(priority_queue &rhs)
 		{
-			MySTL::swap(rhs.m_container);
-			MySTL::swap(rhs.m_comparer);
+			inferiority::swap(rhs.m_container);
+			inferiority::swap(rhs.m_comparer);
 		}
 		const T &top() const
 		{
@@ -353,16 +353,16 @@ namespace MySTL
 		void push(const T &val)
 		{
 			m_container.push_back(val);
-			MySTL::push_heap(m_container.begin(), m_container.end(),m_comparer);
+			inferiority::push_heap(m_container.begin(), m_container.end(),m_comparer);
 		}
 		void push(T &&val)
 		{
-			m_container.push_back(MySTL::forward<T>(val));
-			MySTL::push_heap(m_container.begin(), m_container.end(),m_comparer);
+			m_container.push_back(inferiority::forward<T>(val));
+			inferiority::push_heap(m_container.begin(), m_container.end(),m_comparer);
 		}
 		void pop()
 		{
-			MySTL::pop_heap(m_container.begin(), m_container.end(), m_comparer);
+			inferiority::pop_heap(m_container.begin(), m_container.end(), m_comparer);
 			m_container.pop_back();
 		}
 	private:
