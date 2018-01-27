@@ -139,7 +139,7 @@ namespace inferiority
 	template<class T>
 	constexpr bool is_class_v = is_class<T>::value;
 	#define HAS_MEMBER(name) template<class T>\
-	struct has_member_##name_helper\
+	struct has_member_##name##_helper\
 	{\
 		template<class C>\
 		static true_type test(decltype(&(C::##name)));\
@@ -149,7 +149,7 @@ namespace inferiority
 	template<class T>\
 	struct has_member_##name\
 	{\
-		static const bool value = decltype(has_member_##name_helper<T>::test<T>(0))::value;\
+		static const bool value = decltype(has_member_##name##_helper<T>::test<T>(0))::value;\
 	};
 	namespace {
 		template<class T>
