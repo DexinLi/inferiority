@@ -26,7 +26,7 @@ namespace inferiority
 			{
 				return m_func(inferiority::forward<Args>(args)...);
 			}
-			functor_base* copy_self() override
+			functor_base<Ret, Args...> *copy_self() override
 			{
 				return new functor(m_func);
 			}
@@ -43,7 +43,7 @@ namespace inferiority
 	private:
 		using func_type = Ret(*)(Args...);
 		func_type m_function;
-		functor_base<Ret, Args...> * m_functor;
+		functor_base<Ret, Args...> *m_functor;
 	public:
 		function() : m_function(nullptr), m_functor(nullptr) {}
 		function(func_type func) : m_function(func),m_functor(nullptr){}
