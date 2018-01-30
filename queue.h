@@ -224,35 +224,13 @@ namespace inferiority
 		{
 			rhs.m_data = nullptr;
 		}
-		void operator=(queue &&rhs)
+		void operator=(queue rhs)
 		{
 			swap(rhs);
 		}
-
-		void operator=(const queue &rhs)
-		{
-			if (this == &rhs)
-			{
-				return;
-			}
-			destruct_n(m_size, m_data + m_begin);
-			m_begin = 0;
-			m_size = rhs.m_size;
-			if (m_size <= m_capacity)
-			{
-				_fill_in(m_size, m_data, rhs.m_data + rhs.m_begin);
-			}
-			else
-			{
-				m_capacity = m_size;
-				::operator delete(m_data);
-				m_data = (T*) ::operator new(m_capacity);
-				_fill_in(m_size, m_data, rhs.m_data + m_begin);
-			}
-		}
 		size_t size()
 		{
-			return m_data.size();
+			return m_size;
 		}
 		void push(const T &val)
 		{
@@ -264,10 +242,12 @@ namespace inferiority
 				construct(m_data, val);
 				return;
 			}
-			if (m_begin + m_size == m_capacity)
+			if (isFull())
 			{
-				m_capacity == m_size*2;
+				m_capacity == m_size * 2;
 				m_data = _move_to(m_data, m_begin, m_size, 0, m_capacity);
+				m_begin = 0;
+				m_end = m_size + 1;
 			}
 			construct(m_data + m_begin + m_size, val);
 			m_size += 1;
@@ -279,10 +259,10 @@ namespace inferiority
 				m_size = initial_capacity;
 				m_capacity = initial_capacity;
 				m_data = (T*) ::operator new(sizeof(T)*initial_capacity);
-				construct(m_data, ySTL::forward<T>(val));
+				construct(m_data, inferiority::forward<T>(val));
 				return;
 			}
-			if (m_begin + m_size == m_capacity)
+			if (isFull())
 			{
 				m_capacity == m_size*2;
 				m_data = _move_to(m_data, m_begin, m_size, 0, m_capacity);
@@ -307,6 +287,11 @@ namespace inferiority
 		bool empty()
 		{
 			return m_size == 0;
+		}
+	private:
+		bool isFull()
+		{
+			return m_size == m_capacity;
 		}
 	};
 
@@ -342,7 +327,7 @@ namespace inferiority
 		{
 			return m_container.front();
 		}
-		auto size()->decltype(m_container.size())
+		size_t size() const
 		{
 			return m_container.size();
 		}

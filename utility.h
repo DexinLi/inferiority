@@ -250,10 +250,13 @@ namespace inferiority
 	T* _move_to(T* src, size_t begin, size_t origin, size_t fresh_begin, size_t fresh_size)
 	{
 		T* temp = (T*) ::operator new (fresh_size * sizeof(T));
-		_fill_in(origin, temp + fresh_begin, src + begin);
+		for(size_t i = 0; i < origin; ++i)
+		{
+			construct(temp + fresh_begin + i, inferiority::move(*(src + begin + i)));
+		}
 		destruct_n(origin, src + begin);
 		::operator delete(src);
-		return T*;
+		return temp;
 	}
 
 	template<class T, class...Args>
